@@ -2929,8 +2929,8 @@ And other stuff.
       EOS
 
       output = render_string input, :backend => 'docbook'
-      assert_css 'abstract', output, 1
-      assert_css 'abstract > simpara', output, 2
+      assert_css 'info > abstract', output, 1
+      assert_css 'info > abstract > simpara', output, 2
     end
 
     test 'should make abstract on open block with title rendered to DocBook' do

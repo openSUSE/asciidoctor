@@ -308,9 +308,9 @@ module Asciidoctor
           warn 'asciidoctor: WARNING: abstract block cannot be used in a document without a title when doctype is book. Excluding block content.'
           ''
         else
-          %(<abstract>
+          %(<info><abstract>
 #{title_tag node}#{resolve_content node}
-</abstract>)
+</abstract></info>)
         end
       when 'partintro'
         unless node.level == 0 && node.parent.context == :section && node.document.doctype == 'book'
@@ -723,6 +723,14 @@ module Asciidoctor
           result << head_docinfo
         end
         result << %(<orgname>#{doc.attr 'orgname'}</orgname>) if doc.attr? 'orgname'
+        if preamble = doc.blocks.first
+          if preamble.node_name == "preamble" && (abstract = preamble.blocks.first)
+            if abstract.style == "abstract" && abstract.blocks.first
+              doc.blocks.shift # drop the preamble block from doc, output it here:
+              result << %(<abstract><para>#{abstract.blocks.first.lines.join("\n")}</para></abstract>)
+            end
+          end
+        end
       end
       result << %(</#{info_tag_prefix}info>)
 
