@@ -2952,5 +2952,31 @@ Appendix subsection content
       assert_xpath '/book/appendix', output, 1
       assert_xpath '/book/appendix/section', output, 1
     end
+
+    test 'should create subtitles for document and sections in docbook backend' do
+      input = <<-EOS
+:doctype: book
+
+= Book title: Book subtitle
+
+= Part title: Part subtitle
+
+== Chapter One: Chapter subtitle
+
+It was a dark and stormy night...
+      EOS
+
+      output = render_string input, :backend => 'docbook5'
+      assert_xpath '/book', output, 1
+      assert_xpath '/book/info/title[text() = "Book title"]', output, 1
+      assert_xpath '/book/info/subtitle[text() = "Book subtitle"]', output, 1
+      assert_xpath '/book/part', output, 1
+      assert_xpath '/book/part/title[text() = "Part title"]', output, 1
+      assert_xpath '/book/part/subtitle[text() = "Part subtitle"]', output, 1
+      assert_xpath '/book/part/chapter', output, 1
+      assert_xpath '/book/part/chapter/title[text() = "Chapter One"]', output, 1
+      assert_xpath '/book/part/chapter/subtitle[text() = "Chapter subtitle"]', output, 1
+    end
+
   end
 end

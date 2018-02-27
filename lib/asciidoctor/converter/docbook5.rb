@@ -51,9 +51,18 @@ module Asciidoctor
       else
         tag_name = node.sectname
       end
-      %(<#{tag_name}#{common_attributes node.id, node.role, node.reftext}>
-<title>#{node.title}</title>
-#{node.content}
+      res = %(<#{tag_name}#{common_attributes node.id, node.role, node.reftext}>)
+      if node.title.include?(sep = %(: ))
+        t, _, st = node.title.rpartition sep
+      else
+        t = node.title
+        st = nil
+      end
+      res << %(<title>#{t}</title>)
+      if st
+        res << %(<subtitle>#{st}</subtitle>)
+      end
+      res << %(#{node.content}
 </#{tag_name}>)
     end
 
