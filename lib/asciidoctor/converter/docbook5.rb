@@ -727,7 +727,7 @@ module Asciidoctor
           if preamble.node_name == "preamble" && (abstract = preamble.blocks.first)
             if abstract.style == "abstract" && abstract.blocks.first
               doc.blocks.shift # drop the preamble block from doc, output it here:
-              result << %(<abstract><para>#{abstract.blocks.first.lines.join("\n")}</para></abstract>)
+              result << %(<abstract><simpara>#{abstract.blocks.first.lines.join("\n")}</simpara></abstract>)
             end
           end
         end
