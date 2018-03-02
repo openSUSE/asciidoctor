@@ -544,6 +544,10 @@ module Asciidoctor
       %(<guibutton>#{node.text}</guibutton>)
     end
 
+    def inline_keycode node
+      %(<keycode>#{node.text}</keycode>)
+    end
+
     def inline_callout node
       %(<co#{common_attributes node.id}/>)
     end

@@ -912,6 +912,14 @@ module Asciidoctor
     #
     InlineKbdBtnMacroRx = /(\\)?(kbd|btn):\[(#{CC_ALL}*?[^\\])\]/m
 
+    # Matches keycode inline macro.
+    #
+    # Examples
+    #
+    #   keycode:[0x3B]
+    #
+    InlineKeycodeMacroRx = /(\\)?(keycode):\[(#{CC_ALL}*?[^\\])\]/m
+
     # Matches an implicit link and some of the link inline macro.
     #
     # Examples

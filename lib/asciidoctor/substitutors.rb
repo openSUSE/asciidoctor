@@ -574,6 +574,17 @@ module Substitutors
         }
       end
 
+      if found_macroish_short && (result.include? 'keycode:')
+        result = result.gsub(InlineKeycodeMacroRx) {
+          # honor the escape
+          if $1
+            $&.slice 1, $&.length
+          elsif $2 == 'keycode'
+            (Inline.new self, :keycode, (unescape_bracketed_text $3)).convert
+          end
+        }
+      end
+
       if found_macroish && (result.include? 'menu:')
         result = result.gsub(InlineMenuMacroRx) {
           # alias match for Ruby 1.8.7 compat
