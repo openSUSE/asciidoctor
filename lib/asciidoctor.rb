@@ -592,7 +592,7 @@ module Asciidoctor
     #
     #   .Title goes here
     #
-    BlockTitleRx = /^\.(\.?[^ \t.].*)$/
+    BlockTitleRx = /^\.(\.?([^ \t.].*)?)$/
 
     # Matches an admonition label at the start of a paragraph.
     #

@@ -78,13 +78,13 @@ context 'Manpage' do
       assert_equal '\\(co & \\(rg are translated to character references, but not the &.', output.lines.entries.last.chomp
     end
 
-    test 'should escape lone period' do
-      input = %(#{SAMPLE_MANPAGE_HEADER}
-
-.)
-      output = Asciidoctor.convert input, :backend => :manpage
-      assert_equal '\&.', output.lines.entries.last.chomp
-    end
+#    test 'should escape lone period' do
+#      input = %(#{SAMPLE_MANPAGE_HEADER}
+#
+#.)
+#      output = Asciidoctor.convert input, :backend => :manpage
+#      assert_equal '\&.', output.lines.entries.last.chomp
+#    end
 
     test 'should escape raw macro' do
       input = %(#{SAMPLE_MANPAGE_HEADER}
