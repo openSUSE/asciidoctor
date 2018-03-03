@@ -650,7 +650,7 @@ module Asciidoctor
             quoted_text = %(#{open}<phrase role="#{node.role}">#{text}</phrase>#{close})
           else
             case (role = node.role)
-            when 'command', 'constant', 'date', 'replaceable'
+            when 'acronym', 'command', 'constant', 'date', 'replaceable'
               quoted_text = %(<#{role}>#{text}</#{role}>)
             else
               quoted_text = %(#{open.chop} role="#{node.role}">#{text}#{close})
