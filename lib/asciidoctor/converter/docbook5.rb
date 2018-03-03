@@ -647,7 +647,12 @@ module Asciidoctor
         text = node.text
         if node.role
           if supports_phrase
-            quoted_text = %(#{open}<phrase role="#{node.role}">#{text}</phrase>#{close})
+            case (role = node.role)
+            when 'package'
+              quoted_text = %(#{open}<#{node.role}>#{text}</#{node.role}>#{close})
+            else
+              quoted_text = %(#{open}<phrase role="#{node.role}">#{text}</phrase>#{close})
+            end
           else
             case (role = node.role)
             when 'acronym', 'command', 'constant', 'date', 'replaceable'
