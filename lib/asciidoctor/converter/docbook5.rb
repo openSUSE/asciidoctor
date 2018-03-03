@@ -649,7 +649,12 @@ module Asciidoctor
           if supports_phrase
             quoted_text = %(#{open}<phrase role="#{node.role}">#{text}</phrase>#{close})
           else
-            quoted_text = %(#{open.chop} role="#{node.role}">#{text}#{close})
+            case (role = node.role)
+            when 'replaceable', 'command'
+              quoted_text = %(<#{role}>#{text}</#{role}>)
+            else
+              quoted_text = %(#{open.chop} role="#{node.role}">#{text}#{close})
+            end
           end
         else
           quoted_text = %(#{open}#{text}#{close})
