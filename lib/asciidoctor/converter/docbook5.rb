@@ -527,7 +527,11 @@ module Asciidoctor
           (text = node.text) ? %(<link linkend="#{linkend}">#{text}</link>) : %(<xref linkend="#{linkend}"/>)
         end
       when :link
-        %(<link xl:href="#{node.target}">#{node.text}</link>)
+        if node.target.start_with? "mailto:"
+          %(<email>#{node.target[7..-1]}</email>) # strip "mailto:"
+        else
+          %(<link xl:href="#{node.target}">#{node.text}</link>)
+        end
       when :bibref
         # NOTE technically node.text should be node.reftext, but subs have already been applied to text
         %(<anchor#{common_attributes node.id, nil, (text = node.text)}/>#{text})
