@@ -414,7 +414,7 @@ module Asciidoctor
       node.columns.each do |col|
         result << %(<colspec colname="col_#{col.attr 'colnumber'}" colwidth="#{col.attr col_width_key}*"/>)
       end
-      node.rows.by_section.each do |tsec, rows|
+      node.rows.by_section_docbook5.each do |tsec, rows|
         next if rows.empty?
         has_body = true if tsec == :body
         result << %(<t#{tsec}>)
@@ -440,7 +440,13 @@ module Asciidoctor
               when :header
                 cell_content = (cell_content = cell.content).empty? ? '' : %(<simpara><emphasis role="strong">#{cell_content * '</emphasis></simpara><simpara><emphasis role="strong">'}</emphasis></simpara>)
               else
-                cell_content = (cell_content = cell.content).empty? ? '' : %(<simpara>#{cell_content * '</simpara><simpara>'}</simpara>)
+                if cell.content.empty?
+                  cell_content = ''
+                elsif cell.content.size == 1
+                  cell_content = cell.content[0]
+                else
+                  cell_content = %(<simpara>#{cell.content * '</simpara><simpara>'}</simpara>)                  
+                end
               end
             end
             entry_end = (node.document.attr? 'cellbgcolor') ? %(<?dbfo bgcolor="#{node.document.attr 'cellbgcolor'}"?></entry>) : '</entry>'

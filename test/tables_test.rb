@@ -423,12 +423,11 @@ three
       assert_css 'table > tgroup > tfoot', output, 1
       assert_css 'table > tgroup > tfoot > row', output, 1
       assert_css 'table > tgroup > tfoot > row > entry', output, 2
-      assert_css 'table > tgroup > tfoot > row > entry > simpara', output, 2
       assert_css 'table > tgroup > tbody', output, 1
       assert_css 'table > tgroup > tbody > row', output, 3
       assert_css 'table > tgroup > tbody > row', output, 3
       table_section_names = (xmlnodes_at_css 'table > tgroup > *', output).map(&:node_name).select {|n| n.start_with? 't' }
-      assert_equal %w(thead tbody tfoot), table_section_names
+      assert_equal %w(thead tfoot tbody), table_section_names
     end
 
     test 'table with landscape orientation in DocBook' do
