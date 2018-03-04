@@ -24,7 +24,7 @@ class Table < AbstractBlock
     #
     # Returns a 2-dimentional Array of rows grouped by section.
     def by_section
-      [[:head, @head], [:body, @body], [:foot, @foot]]
+      [[:head, @head], [:foot, @foot], [:body, @body]]
     end
   end
 
