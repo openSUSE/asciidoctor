@@ -663,6 +663,8 @@ module Asciidoctor
             case (role = node.role)
             when 'acronym', 'command', 'constant', 'date', 'replaceable'
               quoted_text = %(<#{role}>#{text}</#{role}>)
+            when 'var'
+              quoted_text = %(<varname>#{text}</varname>)
             else
               quoted_text = %(#{open.chop} role="#{node.role}">#{text}#{close})
             end
