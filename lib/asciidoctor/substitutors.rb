@@ -586,7 +586,14 @@ module Substitutors
       end
 
       if found_macroish && (result.include? 'menu:')
-        result = result.gsub(InlineMenuMacroRx) {
+        # result might include multiple 'menu:' tags
+        # and InlineMenuMacroRx is greedy and could span multiple menu: tags
+        # Solution: split at 'menu:' and substitute one-by-one
+        r = []
+        result.split("menu:").each do |menu|
+          next if menu.empty? # result started with 'menu:'
+          # re-add 'menu:' before match
+          r << ("menu:"+menu).gsub(InlineMenuMacroRx) {
           # alias match for Ruby 1.8.7 compat
           m = $~
           # honor the escape
@@ -595,7 +602,6 @@ module Substitutors
           end
 
           menu, items = m[1], m[2]
-
           if items
             items = items.gsub ESC_R_SB, R_SB if items.include? R_SB
             if (delim = items.include?('&gt;') ? '&gt;' : (items.include?(',') ? ',' : nil))
@@ -610,6 +616,8 @@ module Substitutors
 
           Inline.new(self, :menu, nil, :attributes => {'menu' => menu, 'submenus' => submenus, 'menuitem' => menuitem}).convert
         }
+        end
+        result = r.join("")
       end
 
       if (result.include? '"') && (result.include? '&gt;')
