@@ -771,7 +771,7 @@ class Parser
     unless block
       # abstract and partintro should be handled by open block
       # FIXME kind of hackish...need to sort out how to generalize this
-      block_context = :open if block_context == :abstract || block_context == :partintro
+      block_context = :open if block_context == :abstract || block_context == :partintro || block_context == :preface || block_context == :appendix
 
       case block_context
       when :admonition
