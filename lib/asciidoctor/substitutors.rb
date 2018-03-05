@@ -590,10 +590,11 @@ module Substitutors
         # and InlineMenuMacroRx is greedy and could span multiple menu: tags
         # Solution: split at 'menu:' and substitute one-by-one
         r = []
-        result.split("menu:").each do |menu|
-          next if menu.empty? # result started with 'menu:'
+        x = result.split("menu:")
+        r << x.shift # pass everything before 'menu:' unchanged
+        x.each do |menu|
           # re-add 'menu:' before match
-          r << ("menu:"+menu).gsub(InlineMenuMacroRx) {
+          menu = ("menu:"+menu).gsub(InlineMenuMacroRx) {
           # alias match for Ruby 1.8.7 compat
           m = $~
           # honor the escape
@@ -616,6 +617,7 @@ module Substitutors
 
           Inline.new(self, :menu, nil, :attributes => {'menu' => menu, 'submenus' => submenus, 'menuitem' => menuitem}).convert
         }
+        r << menu
         end
         result = r.join("")
       end
