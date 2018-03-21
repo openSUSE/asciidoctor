@@ -806,6 +806,8 @@ module Substitutors
               if (target = target.chop).end_with?(')')
                 target = target.chop
                 suffix = ');'
+              elsif target.end_with?('&gt') # oops
+                target << ';'
               else
                 suffix = ';'
               end
