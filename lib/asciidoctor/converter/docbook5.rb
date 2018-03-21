@@ -665,6 +665,8 @@ module Asciidoctor
               quoted_text = %(<#{role}>#{text}</#{role}>)
             when 'var'
               quoted_text = %(<varname>#{text}</varname>)
+            when 'path'
+              quoted_text = %(<filename>#{text}</filename>)
             else
               quoted_text = %(#{open.chop} role="#{node.role}">#{text}#{close})
             end
