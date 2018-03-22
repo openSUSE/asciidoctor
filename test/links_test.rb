@@ -326,11 +326,11 @@ context 'Links' do
     assert_equal '<a id="one"></a><a id="two"></a><a id="three"></a><a id="four"></a><a id="five"></a>', result
   end
 
-  test 'assigns xreflabel value for anchor macro without reftext in DocBook output' do
-    input = 'anchor:foo[]'
-    result = render_inline_string input, :backend => :docbook
-    assert_equal '<anchor xml:id="foo" xreflabel="[foo]"/>', result
-  end
+#  test 'assigns xreflabel value for anchor macro without reftext in DocBook output' do
+#    input = 'anchor:foo[]'
+#    result = render_inline_string input, :backend => :docbook
+#    assert_equal '<anchor xml:id="foo" xreflabel="[foo]"/>', result
+#  end
 
   test 'unescapes square bracket in reftext of anchor macro' do
     input = 'see <<foo>>
