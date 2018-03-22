@@ -301,7 +301,7 @@ module Asciidoctor
       result << %(<orderedlist#{common_attributes node.id, node.role, node.reftext}#{num_attribute}#{start_attribute}>)
       result << %(<title>#{node.title}</title>) if node.title?
       node.items.each do |item|
-        result << '<listitem>'
+        result << "<listitem#{common_attributes item.id}>"
         result << %(<simpara>#{item.text}</simpara>)
         result << item.content if item.blocks?
         result << '</listitem>'

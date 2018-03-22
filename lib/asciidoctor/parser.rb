@@ -1107,7 +1107,16 @@ class Parser
     else
       list_block.level = 1
     end
-
+    # yeah, things are complicated
+    # when parsing
+    #   . item 1
+    #   [[id_of_item2]]
+    #   . item 2
+    # the id_of_item2 is parsed within the item 1 context (it could be text)
+    # so we save the attributes (context) of the _previous_ list item
+    # and apply it to the _current_ list item
+    # It's hack. A proper solution would mean a larger rewrite of the list parsing code.
+    previous_attributes = {}
     while reader.has_more_lines? && (match = ListRxMap[list_type].match(reader.peek_line))
       marker = resolve_list_marker(list_type, match[1])
 
@@ -1128,9 +1137,11 @@ class Parser
       else
         this_item_level = list_block.level
       end
-
+      attributes = {}
       if !list_block.items? || this_item_level == list_block.level
-        list_item = next_list_item(reader, list_block, match)
+        list_item = next_list_item(reader, list_block, match, attributes)
+        list_item.id = previous_attributes['id'] if previous_attributes['id']
+        previous_attributes = attributes
       elsif this_item_level < list_block.level
         # leave this block
         break
@@ -1227,7 +1238,7 @@ class Parser
 
     # NOTE skip the match on the first time through as we've already done it (emulates begin...while)
     while match || (reader.has_more_lines? && (match = sibling_pattern.match(reader.peek_line)))
-      term, item = next_list_item(reader, list_block, match, sibling_pattern)
+      term, item = next_list_item(reader, list_block, match, {}, sibling_pattern)
       if previous_pair && !previous_pair[1]
         previous_pair[0] << term
         previous_pair[1] = item
@@ -1257,7 +1268,7 @@ class Parser
   #
   # Returns the next ListItem or ListItem pair (depending on the list type)
   # for the parent list Block.
-  def self.next_list_item(reader, list_block, match, sibling_trait = nil)
+  def self.next_list_item(reader, list_block, match, attributes = {}, sibling_trait = nil)
     if (list_type = list_block.context) == :dlist
       list_term = ListItem.new(list_block, match[1])
       list_item = ListItem.new(list_block, match[3])
@@ -1313,11 +1324,11 @@ class Parser
       end
 
       # only relevant for :dlist
-      options = {:text => !has_text}
+      options = {:text => !has_text, :parse_metadata => true}
 
       # we can look for blocks until lines are exhausted without worrying about
       # sections since reader is confined to boundaries of list
-      while ((block = next_block list_item_reader, list_item, {}, options) && list_item.blocks << block) ||
+      while ((block = next_block list_item_reader, list_item, attributes, options) && list_item.blocks << block) ||
           list_item_reader.has_more_lines?
       end
 
