@@ -5,6 +5,13 @@ unless defined? ASCIIDOCTOR_PROJECT_DIR
 end
 
 context "SUSE" do
+  context 'Substitutes' do
+    test 'should process menu "+"' do
+      para = block_from_string('menu:+[]', :attributes => {'experimental' => ''})
+      assert_equal %q{<b class="menuref">+</b>}, para.sub_macros(para.source)
+    end
+  end
+
   context 'Images' do
 
     test 'can render block image with empty caption' do
