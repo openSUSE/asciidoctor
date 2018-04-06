@@ -302,7 +302,7 @@ module Asciidoctor
       result << %(<title>#{node.title}</title>) if node.title?
       node.items.each do |item|
         result << "<listitem#{common_attributes item.id}>"
-        result << %(<simpara>#{item.text}</simpara>)
+        result << %(<para>#{item.text}</para>)
         result << item.content if item.blocks?
         result << '</listitem>'
       end
@@ -489,7 +489,7 @@ module Asciidoctor
             ''
           end
           result << '<listitem>'
-          result << %(<simpara>#{text_marker}#{item.text}</simpara>)
+          result << %(<para>#{text_marker}#{item.text}</para>)
           result << item.content if item.blocks?
           result << '</listitem>'
         end
