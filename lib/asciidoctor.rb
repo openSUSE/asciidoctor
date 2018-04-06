@@ -1198,7 +1198,7 @@ module Asciidoctor
     [:single, :constrained, /(^|[^#{CC_WORD};:`}])(?:\[([^\]]+)\])?'`(\S|\S#{CC_ALL}*?\S)`'(?!#{CG_WORD})/m],
 
     # ``monospaced``
-    [:monospaced, :unconstrained, /\\?(?:\[([^\]]+)\])?``(#{CC_ALL}+?)``/m],
+    [:monospaced, :unconstrained, /\\?(?:\[([^\[\]]+)\])?``(#{CC_ALL}+?)``/m],
 
     # `monospaced`
     [:monospaced, :constrained, /(^|[^#{CC_WORD};:"'`}])(?:\[([^\]]+)\])?`(\S|\S#{CC_ALL}*?\S)`(?![#{CC_WORD}"'`])/m],

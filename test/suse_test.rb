@@ -10,6 +10,11 @@ context "SUSE" do
       para = block_from_string('menu:+[]', :attributes => {'experimental' => ''})
       assert_equal %q{<b class="menuref">+</b>}, para.sub_macros(para.source)
     end
+    test 'should process [ in variablelist' do
+      list = block_from_string "* [[replaceable]``system_type``]: This tag is used", :backend => 'docbook5'
+      output = list.render
+      assert_xpath '//replaceable', output, 1
+    end
   end
 
   context 'Images' do
