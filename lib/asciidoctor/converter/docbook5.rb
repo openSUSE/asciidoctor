@@ -428,7 +428,7 @@ module Asciidoctor
             # NOTE <entry> may not have whitespace (e.g., line breaks) as a direct descendant according to DocBook rules
             entry_start = %(<entry#{halign_attribute}#{valign_attribute}#{colspan_attribute}#{rowspan_attribute}>)
             if tsec == :head
-              cell_content = cell.text
+              cell_content = %(<simpara>#{cell.text}</simpara>)
             else
               case cell.style
               when :asciidoc
@@ -443,7 +443,7 @@ module Asciidoctor
                 if cell.content.empty?
                   cell_content = ''
                 elsif cell.content.size == 1
-                  cell_content = cell.content[0]
+                  cell_content = %(<simpara>#{cell.content[0]}</simpara>)
                 else
                   cell_content = %(<simpara>#{cell.content * '</simpara><simpara>'}</simpara>)                  
                 end
