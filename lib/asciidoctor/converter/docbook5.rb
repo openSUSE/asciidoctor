@@ -209,7 +209,7 @@ module Asciidoctor
 
       mediaobject = %(<mediaobject>
 <imageobject>
-<imagedata fileref="#{node.image_uri(node.attr 'target')}"#{width_attribute}#{depth_attribute}#{scale_attribute}#{align_attribute}/>
+<imagedata fileref="#{File.basename(node.image_uri(node.attr 'target'))}"#{width_attribute}#{depth_attribute}#{scale_attribute}#{align_attribute}/>
 </imageobject>
 <textobject><phrase>#{node.alt}</phrase></textobject>
 </mediaobject>)
@@ -575,7 +575,7 @@ module Asciidoctor
       depth_attribute = (node.attr? 'height') ? %( contentdepth="#{node.attr 'height'}") : ''
       %(<inlinemediaobject>
 <imageobject>
-<imagedata fileref="#{node.type == 'icon' ? (node.icon_uri node.target) : (node.image_uri node.target)}"#{width_attribute}#{depth_attribute}/>
+<imagedata fileref="#{File.basename(node.type == 'icon' ? (node.icon_uri node.target) : (node.image_uri node.target))}"#{width_attribute}#{depth_attribute}/>
 </imageobject>
 <textobject><phrase>#{node.alt}</phrase></textobject>
 </inlinemediaobject>)
@@ -833,7 +833,7 @@ module Asciidoctor
         %(<cover role="#{face}">
 <mediaobject>
 <imageobject>
-<imagedata fileref="#{cover_image}"#{width_attr}#{depth_attr}/>
+<imagedata fileref="#{File.basename(cover_image)}"#{width_attr}#{depth_attr}/>
 </imageobject>
 </mediaobject>
 </cover>)
